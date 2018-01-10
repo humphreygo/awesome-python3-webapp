@@ -105,3 +105,4 @@ venv.bak/
 
 #vim swap file temp
 *.swp
+*.sql
