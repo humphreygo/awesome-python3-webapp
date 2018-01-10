@@ -2,7 +2,6 @@ import logging;logging.basicConfig(level=logging.INFO)
 
 import asyncio
 
-from orm import Model,StringField,IntegerField
 
 @asyncio.coroutine
 def create_pool(loop,**kw):
@@ -56,12 +55,6 @@ def create_args_string(num):
 
 
 
-class User(Model):
-    __table__='users'
-
-    id=IntegerField(primary_key=True)
-    name = StringField()
-
 class Model(dict,metaclass=ModelMetaclass):
     def __init__(self,**kw):
         super(model,self).__init__(**kw)
@@ -113,7 +106,7 @@ class Model(dict,metaclass=ModelMetaclass):
                 args.extend(limit)
             else:
                 raise ValueError('Invalid limit value: %s' % str(limit))
-        rs = await select(' '.join(sql),args)
+        rs = yield from select(' '.join(sql),args)
         return [cls(**r) for r in rs]
     
     @classmethod
@@ -124,7 +117,7 @@ class Model(dict,metaclass=ModelMetaclass):
         if where:
             sql.append('where')
             sql.append(where)
-        rs = await select(' '.join(sql), args, 1)
+        rs = yield from select(' '.join(sql), args, 1)
         if len(rs) == 0:
             return None
         return rs[0]['_num_']
