@@ -48,14 +48,14 @@ def get_named_kw_args(fn):
     args = []
     params = inspect.signature(fn).parameters
     for name, param in params.items():
-        if param.kind == inspect.Parameter.KERWORD_ONLY:
+        if param.kind == inspect.Parameter.KEYWORD_ONLY:
             args.append(name)
     return tuple(args)
 
 def has_named_kw_args(fn):
     params = inspect.signature(fn).parameters
     for name, param in params.items():
-        if param.kind ==inspect.Parameter.KERWORD_ONLY:
+        if param.kind ==inspect.Parameter.KEYWORD_ONLY:
             return True
 
 def has_var_kw_arg(fn):
@@ -72,7 +72,7 @@ def has_request_arg(fn):
         if name == 'request':
             found = True
             continue
-        if found and (param.kind != inspect.Parameter.VAR_POSITIONAL and param.kind != inspect.Parameter.KERWORD_ONLY and param.kind != inspect.Parameter.VAR_KEYWORD):
+        if found and (param.kind != inspect.Parameter.VAR_POSITIONAL and param.kind != inspect.Parameter.KEYWORD_ONLY and param.kind != inspect.Parameter.VAR_KEYWORD):
             raise ValueError('request parameter must be the last named parameter in function:%s%s' % (fn.__name__, str(sig)))
     return found
 
