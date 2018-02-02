@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 #-coding:utf-8 -
+import logging 
 
 import config_default
 
@@ -37,8 +38,9 @@ def merge(defaults, override):
 def toDict(d):
     D = Dict()
     for k, v in d.items():
+        logging.info('toDict function, k is %s---v is %s' % (k, v))
         D[k] = toDict(v) if isinstance(v, dict) else v
-        return D
+    return D
 
 configs = config_default.configs
 
